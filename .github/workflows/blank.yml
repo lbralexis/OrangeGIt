@@ -30,3 +30,14 @@ jobs:
     - name: Run Colab Notebook
       run: |
         jupyter nbconvert --to notebook --execute Git_Orange_VF2_Stable.ipynb --output executed_notebook.ipynb
+
+    - name: List files after execution
+      run: |
+        ls -la
+        pwd
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: output-csv
+        path: path/to/your/output.csv
