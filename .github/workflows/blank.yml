@@ -36,8 +36,13 @@ jobs:
         ls -la
         pwd
 
+    - name: List files after execution
+      run: |
+        ls -la
+        pwd
+
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: output-csv
-        path: path/to/your/output.csv
+        path: Orange-Bench-*.csv  # Utilisez un joker pour matcher tous les fichiers générés
