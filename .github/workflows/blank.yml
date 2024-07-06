@@ -29,4 +29,4 @@ jobs:
 
     - name: Run Colab Notebook
       run: |
-        jupyter nbconvert --to notebook --execute GitOrange_VF2_Stable.ipynb --output executed_notebook.ipynb
+        jupyter nbconvert --to notebook --execute Git_Orange_VF2_Stable.ipynb --output executed_notebook.ipynb
