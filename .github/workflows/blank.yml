@@ -27,11 +27,6 @@ jobs:
       run: |
         jupyter nbconvert --to notebook --execute Git_Orange_VF2_Stable.ipynb --output executed_notebook.ipynb
 
-    - name: Rename CSV file
-      run: |
-        timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
-        mv output.csv Orange-Bench-${timestamp}.csv
-
     - name: List files after execution
       run: |
         ls -la
