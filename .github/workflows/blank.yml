@@ -37,3 +37,16 @@ jobs:
       with:
         name: output-csv
         path: Orange-Bench-*.csv  # Utilisez un joker pour matcher tous les fichiers générés
+
+    - name: Send Email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.example.com  # Remplacez par l'adresse du serveur SMTP
+        server_port: 587  # Le port du serveur SMTP
+        username: ${{ secrets.SMTP_USERNAME }}  # Utilisez GitHub Secrets pour stocker en toute sécurité les informations sensibles
+        password: ${{ secrets.SMTP_PASSWORD }}
+        subject: "Artifacts from GitHub Actions"
+        body: "Please find attached the generated artifact."
+        to: alexis.laboureyras2@gmail.com  # Remplacez par votre adresse email
+        from: alexis.laboureyras2@gmail.com  # L'adresse email de l'expéditeur
+        attachments: Orange-Bench-*.csv  # Joindre les fichiers CSV générés
