@@ -2,51 +2,39 @@ name: Run Colab Notebook
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # Exécute tous les jours à 8 heures UTC
-  workflow_dispatch:
+    - cron: '0 6 * * *'  # Exécute tous les jours à 6 heures UTC (8 heures en France en été)
+  workflow_dispatch: # Permet de lancer manuellement le workflow
 
 jobs:
   run:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'  # Utilisez la version Python appropriée
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Utilisez la version Python appropriée
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install jupyter pandas gspread gspread-dataframe oauth2client
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jupyter pandas gspread gspread-dataframe oauth2client
 
-    - name: Run Colab Notebook
-      run: |
-        jupyter nbconvert --to notebook --execute Git_Orange_VF2_Stable.ipynb --output executed_notebook.ipynb
+      - name: Run Colab Notebook
+        run: |
+          jupyter nbconvert --to notebook --execute Git_Orange_VF2_Stable.ipynb --output executed_notebook.ipynb
 
-    - name: List files after execution
-      run: |
-        ls -la
-        pwd
+      - name: List files after execution
+        run: |
+          ls -la
+          pwd
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: output-csv
-        path: Orange-Bench-*.csv  # Utilisez un joker pour matcher tous les fichiers générés
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: output-csv
+          path: Orange-Bench-*.csv  # Utilisez un joker pour matcher tous les fichiers générés
 
-    - name: Send Email
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: smtp.gmail.com  # Remplacez par l'adresse du serveur SMTP
-        server_port: 587  # Le port du serveur SMTP
-        username: ${{ secrets.SMTP_USERNAME }}  # Utilisez GitHub Secrets pour stocker en toute sécurité les informations sensibles
-        password: ${{ secrets.SMTP_PASSWORD }}
-        subject: "Artifacts from GitHub Actions"
-        body: "Please find attached the generated artifact."
-        to: alexis.laboureyras@sfr.com  # Remplacez par votre adresse email
-        from: alexis.laboureyrassfr@gmail.com  # L'adresse email de l'expéditeur
-        attachments: Orange-Bench-*.csv  # Joindre les fichiers CSV générés
