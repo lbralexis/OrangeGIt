@@ -43,8 +43,8 @@ jobs:
       with:
         server_address: smtp.gmail.com  # Remplacez par l'adresse du serveur SMTP
         server_port: 587  # Le port du serveur SMTP
-        username: ${{ alexis.laboureyrassfr@gmail.com }}  # Utilisez GitHub Secrets pour stocker en toute sécurité les informations sensibles
-        password: ${{ Alexad2320@ }}
+        username: ${{ secrets.SMTP_USERNAME }}  # Utilisez GitHub Secrets pour stocker en toute sécurité les informations sensibles
+        password: ${{ secrets.SMTP_PASSWORD }}
         subject: "Artifacts from GitHub Actions"
         body: "Please find attached the generated artifact."
         to: alexis.laboureyras@sfr.com  # Remplacez par votre adresse email
