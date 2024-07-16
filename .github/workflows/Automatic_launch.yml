@@ -38,3 +38,15 @@ jobs:
           name: output-csv
           path: Orange-Bench-*.csv  # Utilisez un joker pour matcher tous les fichiers générés
 
+      - name: Send email with artifact
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com  # Remplacez par votre serveur SMTP
+          server_port: 587  # Port du serveur SMTP
+          username: ${{ secrets.SMTP_USERNAME }}  # Nom d'utilisateur SMTP stocké dans les secrets
+          password: ${{ secrets.SMTP_PASSWORD }}  # Mot de passe SMTP stocké dans les secrets
+          subject: "Daily Colab Notebook Execution Result"
+          body: "Please find the attached CSV file from the latest execution of the Colab notebook."
+          to: Alexis.laboureyras@sfr  # Remplacez par l'adresse email du destinataire
+          from: laboureyras.alexis2@gmail.com  # Remplacez par l'adresse email de l'expéditeur
+          attachments: Orange-Bench-*.csv  # Fichier à joindre à l'email
