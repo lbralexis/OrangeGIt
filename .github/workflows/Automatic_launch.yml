@@ -48,7 +48,7 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 587
-          subject: Bench
+          subject: ${{ env.SUBJECT }}
           body:
             Bonjour à tous,
 
@@ -56,7 +56,7 @@ jobs:
 
             Cordialement,
             Alexis
-          to: alexis.laboureyras@sfr.com,
+          to: alexis.laboureyras@sfr.com
               
           from: ${{ secrets.GMAIL_USERNAME }}
           attachments: Orange-Bench-*.csv
