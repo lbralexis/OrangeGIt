@@ -44,8 +44,15 @@ jobs:
           server_address: smtp.gmail.com
           server_port: 587
           subject: Daily Colab Notebook Execution Result
-          body: Please find the attached CSV file from the latest execution of the Colab notebook.
-          to: alexis.laboureyras@sfr.com
+          body: |
+            Hello,
+
+            Veuillez trouver ci-joint le bench Orange.
+
+            Cordialement,
+            Alexis
+          to: alexis.laboureyras@sfr.com,
+              lea.david@sfr.com
           from: ${{ secrets.GMAIL_USERNAME }}
           attachments: Orange-Bench-*.csv
           username: ${{ secrets.GMAIL_USERNAME }}
