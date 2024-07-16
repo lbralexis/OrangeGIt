@@ -2,7 +2,7 @@ name: Run Colab Notebook
 
 on:
   schedule:
-    - cron: '0 7 * * *'  # Exécute tous les jours à 6 heures UTC (8 heures en France en été)
+    - cron: '0 7 * * *'  # Exécute tous les jours à 7 heures UTC (9 heures en France en été)
   workflow_dispatch: # Permet de lancer manuellement le workflow
 
 jobs:
@@ -41,12 +41,13 @@ jobs:
       - name: Send email with artifact
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.gmail.com  # Remplacez par votre serveur SMTP
-          server_port: 587  # Port du serveur SMTP
-          username: ${{ secrets.SMTP_USERNAME }}  # Nom d'utilisateur SMTP stocké dans les secrets
-          password: ${{ secrets.SMTP_PASSWORD }}  # Mot de passe SMTP stocké dans les secrets
-          subject: "Daily Colab Notebook Execution Result"
-          body: "Please find the attached CSV file from the latest execution of the Colab notebook."
-          to: Alexis.laboureyras@sfr  # Remplacez par l'adresse email du destinataire
-          from: laboureyras.alexis2@gmail.com  # Remplacez par l'adresse email de l'expéditeur
-          attachments: Orange-Bench-*.csv  # Fichier à joindre à l'email
+          server_address: smtp.gmail.com
+          server_port: 587
+          subject: Daily Colab Notebook Execution Result
+          body: Please find the attached CSV file from the latest execution of the Colab notebook.
+          to: Alexis.laboureyras@sfr.fr
+          from: ${{ secrets.GMAIL_USERNAME }}
+          attachments: Orange-Bench-*.csv
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+
