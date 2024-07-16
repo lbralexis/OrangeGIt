@@ -45,7 +45,7 @@ jobs:
           server_port: 587
           subject: Daily Colab Notebook Execution Result
           body: Please find the attached CSV file from the latest execution of the Colab notebook.
-          to: Alexis.laboureyras@sfr.fr
+          to: alexis.laboureyras@sfr.com
           from: ${{ secrets.GMAIL_USERNAME }}
           attachments: Orange-Bench-*.csv
           username: ${{ secrets.GMAIL_USERNAME }}
