@@ -37,24 +37,28 @@ jobs:
         with:
           name: output-csv
           path: Orange-Bench-*.csv  # Utilisez un joker pour matcher tous les fichiers générés
+          
+      - name: Set email subject with date
+        id: set-subject
+        run: echo "SUBJECT=Bench Orange du $(date +'%d/%m/%Y')" >> $GITHUB_ENV
+
 
       - name: Send email with artifact
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
           server_port: 587
-          subject: Daily Colab Notebook Execution Result
-          body: |
-            Hello,
+          subject: Bench
+          body:
+            Bonjour à tous,
 
-            Veuillez trouver ci-joint le bench Orange.
+            Veuillez trouver ci-joint les PVMC des différents forfaits Orange.
 
             Cordialement,
             Alexis
           to: alexis.laboureyras@sfr.com,
-              lea.david@sfr.com
+              
           from: ${{ secrets.GMAIL_USERNAME }}
           attachments: Orange-Bench-*.csv
           username: ${{ secrets.GMAIL_USERNAME }}
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
-
