@@ -57,7 +57,6 @@ jobs:
             Cordialement,
             Alexis
           to: alexis.laboureyras@sfr.com,
-              vincent.heritier@sfr.com
           from: ${{ secrets.GMAIL_USERNAME }}
           attachments: Orange-Bench-*.csv
           username: ${{ secrets.GMAIL_USERNAME }}
