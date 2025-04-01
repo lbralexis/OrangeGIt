@@ -33,10 +33,11 @@ jobs:
           pwd
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: output-csv
-          path: Orange-Bench-*.csv  # Utilisez un joker pour matcher tous les fichiers générés
+          path: Orange-Bench-*.csv
+  # Utilisez un joker pour matcher tous les fichiers générés
           
       - name: Set email subject with date
         id: set-subject
