@@ -33,7 +33,7 @@ jobs:
           pwd
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: output-csv
           path: Orange-Bench-*.csv  # Utilisez un joker pour matcher tous les fichiers générés
