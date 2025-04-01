@@ -1,8 +1,8 @@
-name: Run Colab Notebook
+name: Run Orange Scraper
 
 on:
   schedule:
-    - cron: '0 7 * * *'  # Exécute tous les jours à 7 heures UTC (9 heures en France en été)
+    - cron: '0 7 * * *'
   workflow_dispatch:
 
 jobs:
@@ -13,6 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -21,22 +28,16 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install jupyter pandas gspread gspread-dataframe oauth2client
+          pip install pandas selenium webdriver-manager
 
-      - name: Run Colab Notebook
-        run: |
-          jupyter nbconvert --to notebook --execute Orange25.ipynb --output executed_notebook.ipynb
-
-      - name: List files after execution
-        run: |
-          ls -la
-          pwd
+      - name: Run Python script
+        run: python scraper_orange.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: output-csv
-          path: Orange-Bench-*.csv
+          path: capacities_prices_bonus_*.csv
           
       - name: Set email subject with date
         id: set-subject
@@ -57,7 +58,8 @@ jobs:
             Alexis
           to: laboureyras.alexis2@gmail.com
           from: ${{ secrets.GMAIL_USERNAME }}
-          attachments: Orange-Bench-*.csv
+          attachments: capacities_prices_bonus_*.csv
           username: ${{ secrets.GMAIL_USERNAME }}
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
+
 
