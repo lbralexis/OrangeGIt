@@ -38,7 +38,7 @@ jobs:
         run: ls -la
 
       - name: Upload artifact
-        uses: actions/upload-artifact@d8b420226f0c5123920794a8a877d01c43c8f131
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: output-csv
           path: capacities_prices_bonus_*.csv
