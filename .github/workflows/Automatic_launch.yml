@@ -1,4 +1,4 @@
-name: Run Orange25
+name: Run Orange Notebook
 
 on:
   schedule:
@@ -13,6 +13,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jupyter pandas gspread gspread-dataframe oauth2client selenium webdriver-manager
+
       - name: Install Chrome
         run: |
           sudo apt-get update
@@ -20,21 +30,15 @@ jobs:
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
+      - name: Run Colab Notebook
         run: |
-          python -m pip install --upgrade pip
-          pip install pandas selenium webdriver-manager
+          jupyter nbconvert --to notebook --execute Orange25.ipynb --output executed_notebook.ipynb
 
-      - name: Run Python script
-        run: python Orange25.py
+      - name: List files
+        run: ls -la
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: output-csv
           path: capacities_prices_bonus_*.csv
@@ -43,7 +47,7 @@ jobs:
         id: set-subject
         run: echo "SUBJECT=Bench Orange du $(date +'%d/%m/%Y')" >> $GITHUB_ENV
 
-      - name: Send email with artifact
+      - name: Send email
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -54,12 +58,13 @@ jobs:
 
             Veuillez trouver ci-joint les PVMC des différents forfaits Orange.
 
-            Cordialement,  
+            Cordialement,
             Alexis
           to: laboureyras.alexis2@gmail.com
           from: ${{ secrets.GMAIL_USERNAME }}
           attachments: capacities_prices_bonus_*.csv
           username: ${{ secrets.GMAIL_USERNAME }}
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
+
 
 
