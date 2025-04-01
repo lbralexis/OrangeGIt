@@ -2,26 +2,21 @@ name: Run Orange Notebook
 
 on:
   schedule:
-    - cron: '0 7 * * *'
+    - cron: '0 7 * * *'  # Exécution tous les jours à 7h UTC (9h heure d'été France)
   workflow_dispatch:
 
 jobs:
   run:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e
         with:
           python-version: '3.10'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install jupyter pandas gspread gspread-dataframe oauth2client selenium webdriver-manager
 
       - name: Install Chrome
         run: |
@@ -29,6 +24,11 @@ jobs:
           sudo apt-get install -y wget unzip
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jupyter pandas gspread gspread-dataframe oauth2client selenium webdriver-manager
 
       - name: Run Colab Notebook
         run: |
@@ -38,7 +38,7 @@ jobs:
         run: ls -la
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@d8b420226f0c5123920794a8a877d01c43c8f131
         with:
           name: output-csv
           path: capacities_prices_bonus_*.csv
@@ -58,13 +58,14 @@ jobs:
 
             Veuillez trouver ci-joint les PVMC des différents forfaits Orange.
 
-            Cordialement,
+            Cordialement,  
             Alexis
           to: laboureyras.alexis2@gmail.com
           from: ${{ secrets.GMAIL_USERNAME }}
           attachments: capacities_prices_bonus_*.csv
           username: ${{ secrets.GMAIL_USERNAME }}
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
+
 
 
 
