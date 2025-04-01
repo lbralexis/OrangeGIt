@@ -1,4 +1,4 @@
-name: Run Orange Scraper
+name: Run Orange25
 
 on:
   schedule:
@@ -31,7 +31,7 @@ jobs:
           pip install pandas selenium webdriver-manager
 
       - name: Run Python script
-        run: python scraper_orange.py
+        run: python Orange25.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
