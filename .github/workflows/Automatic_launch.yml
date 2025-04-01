@@ -3,7 +3,7 @@ name: Run Colab Notebook
 on:
   schedule:
     - cron: '0 7 * * *'  # Exécute tous les jours à 7 heures UTC (9 heures en France en été)
-  workflow_dispatch: # Permet de lancer manuellement le workflow
+  workflow_dispatch:
 
 jobs:
   run:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Utilisez la version Python appropriée
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
@@ -37,12 +37,10 @@ jobs:
         with:
           name: output-csv
           path: Orange-Bench-*.csv
-  # Utilisez un joker pour matcher tous les fichiers générés
           
       - name: Set email subject with date
         id: set-subject
         run: echo "SUBJECT=Bench Orange du $(date +'%d/%m/%Y')" >> $GITHUB_ENV
-
 
       - name: Send email with artifact
         uses: dawidd6/action-send-mail@v3
@@ -50,15 +48,16 @@ jobs:
           server_address: smtp.gmail.com
           server_port: 587
           subject: ${{ env.SUBJECT }}
-          body:
+          body: |
             Bonjour à tous,
 
             Veuillez trouver ci-joint les PVMC des différents forfaits Orange.
 
-            Cordialement,
+            Cordialement,  
             Alexis
           to: laboureyras.alexis2@gmail.com
           from: ${{ secrets.GMAIL_USERNAME }}
           attachments: Orange-Bench-*.csv
           username: ${{ secrets.GMAIL_USERNAME }}
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
+
